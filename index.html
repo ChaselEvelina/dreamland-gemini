@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0b0721">
+<title>DreamLand — 把脑海里的奇幻星海，装进一座云端花园</title>
+<style>
+:root{
+  --bg:#0b0721; --bg2:#17103a; --ink:#f4f0ff; --muted:#b9aede; --accent:#8b6ff0; --accent2:#d98cff;
+  --glow1:rgba(139,111,240,.35); --glow2:rgba(90,110,255,.28); --card:rgba(255,255,255,.06); --line:rgba(255,255,255,.14);
+  --btn:linear-gradient(110deg,#7b5cf0,#c86bff); --shadow:0 18px 50px rgba(0,0,0,.45);
+}
+body[data-theme="aurora"]{--bg:#04101f;--bg2:#06263a;--muted:#a8d8dc;--accent:#2dd4bf;--accent2:#38bdf8;--glow1:rgba(45,212,191,.28);--glow2:rgba(56,189,248,.24);--btn:linear-gradient(110deg,#0ea5a4,#38bdf8)}
+body[data-theme="dusk"]{--bg:#150818;--bg2:#2a1030;--muted:#e7c9d8;--accent:#f59e0b;--accent2:#fb7185;--glow1:rgba(245,158,11,.30);--glow2:rgba(251,113,133,.26);--btn:linear-gradient(110deg,#f59e0b,#fb7185)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;color:var(--ink);font-family:Inter,"PingFang SC","Microsoft YaHei",system-ui,sans-serif;background:radial-gradient(ellipse at 15% 0%,var(--glow1),transparent 55%),radial-gradient(ellipse at 90% 100%,var(--glow2),transparent 55%),linear-gradient(180deg,var(--bg),var(--bg2));min-height:100vh;transition:background .5s}
+#stars{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.9}
+a{color:inherit;text-decoration:none}button{font:inherit;cursor:pointer;border:0;color:inherit;background:none}
+.wrap{position:relative;z-index:1;max-width:1180px;margin:0 auto;padding:0 20px}
+.topbar{position:sticky;top:0;z-index:10;backdrop-filter:blur(16px);background:rgba(10,6,30,.55);border-bottom:1px solid var(--line)}
+.topbar-in{display:flex;align-items:center;gap:14px;max-width:1180px;margin:0 auto;padding:12px 20px;flex-wrap:wrap}
+.brand{font-family:Georgia,serif;font-size:22px;font-weight:700;letter-spacing:.5px}
+.nav{display:flex;gap:4px;margin-left:8px}.nav a{padding:8px 13px;border-radius:20px;font-size:13px;color:var(--muted)}.nav a:hover{background:rgba(255,255,255,.1);color:var(--ink)}
+.tools{margin-left:auto;display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.theme-btn{padding:7px 13px;border-radius:20px;border:1px solid var(--line);font-size:12px;color:var(--muted)}
+.theme-btn.active{background:var(--btn);color:#fff;border-color:transparent}
+.icon-btn{width:34px;height:34px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;font-size:15px}
+.icon-btn.off{opacity:.4}
+.custom-btn{padding:8px 15px;border-radius:20px;background:var(--btn);color:#fff;font-size:12px}
+.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:28px;align-items:center;padding:56px 0 40px}
+.tag{display:inline-block;padding:6px 14px;border:1px solid var(--line);border-radius:20px;font-size:12px;color:var(--muted);letter-spacing:1px}
+.hero h1{font-family:Georgia,"PingFang SC",serif;font-size:clamp(32px,5vw,52px);line-height:1.25;margin:18px 0 14px}
+.hero p{color:var(--muted);line-height:1.9;font-size:15px;max-width:520px}
+.hero-btns{display:flex;gap:12px;margin:22px 0 26px;flex-wrap:wrap}
+.btn-primary{padding:12px 24px;border-radius:26px;background:var(--btn);color:#fff;font-size:14px;box-shadow:var(--shadow)}
+.btn-ghost{padding:12px 24px;border-radius:26px;border:1px solid var(--line);font-size:14px}
+.stats{display:flex;gap:14px;flex-wrap:wrap}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 20px;text-align:center;min-width:104px}
+.stat b{display:block;font-size:22px}.stat small{color:var(--muted);font-size:12px}
+.hero-card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:12px;box-shadow:var(--shadow)}
+.hero-card svg{width:100%;height:auto;display:block;border-radius:14px}
+.hero-cap{display:flex;justify-content:space-between;align-items:center;padding:12px 6px 4px}
+.hero-cap small{display:block;color:var(--muted);font-size:11px;letter-spacing:1px}
+.hero-cap b{font-size:16px}.hero-cap span{display:block;color:var(--muted);font-size:12px;margin-top:3px}
+section{padding:34px 0}
+.kicker{font-size:11px;letter-spacing:3px;color:var(--accent2);text-transform:uppercase}
+h2{font-family:Georgia,"PingFang SC",serif;font-size:28px;margin:8px 0 10px}
+.desc{color:var(--muted);line-height:1.8;font-size:14px;max-width:640px}
+.filters{display:flex;gap:8px;margin:18px 0;flex-wrap:wrap}
+.filter{padding:8px 18px;border-radius:20px;border:1px solid var(--line);font-size:13px;color:var(--muted)}
+.filter.active{background:var(--btn);color:#fff;border-color:transparent}
+.gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.art{background:var(--card);border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:var(--shadow)}
+.art svg{width:100%;height:auto;display:block}
+.art-body{padding:16px}.art-body b{font-size:16px}.art-body p{color:var(--muted);font-size:13px;line-height:1.8;margin:8px 0 12px}
+.art-actions{display:flex;gap:8px}
+.small-btn{padding:7px 14px;border-radius:18px;border:1px solid var(--line);font-size:12px;color:var(--muted)}
+.small-btn.liked{background:var(--btn);color:#fff;border-color:transparent}
+.tabs{display:flex;gap:8px;margin:18px 0;flex-wrap:wrap}
+.tab{padding:9px 20px;border-radius:22px;border:1px solid var(--line);font-size:13px;color:var(--muted)}
+.tab.active{background:var(--btn);color:#fff;border-color:transparent}
+.tab-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.tab-card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px}
+.tab-card b{font-size:15px}.tab-card p{color:var(--muted);font-size:13px;line-height:1.8;margin:8px 0 0}
+.wall{display:grid;grid-template-columns:340px 1fr;gap:16px;align-items:start}
+.note-form{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px}
+.note-form label{display:block;font-size:13px;margin:12px 0 6px;color:var(--muted)}
+.note-form input,.note-form textarea{width:100%;background:rgba(0,0,0,.25);border:1px solid var(--line);border-radius:12px;color:var(--ink);padding:11px 13px;font:inherit;font-size:13px}
+.note-form textarea{min-height:84px;resize:vertical}
+.notes{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.note{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;position:relative}
+.note p{font-size:13px;line-height:1.8;margin:0 0 12px}
+.note small{color:var(--muted);font-size:12px}
+.note .del{position:absolute;top:8px;right:10px;color:var(--muted);font-size:16px}
+footer{border-top:1px solid var(--line);padding:24px 0 34px;display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;color:var(--muted);font-size:13px}
+.toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,20px);opacity:0;pointer-events:none;background:rgba(20,14,50,.92);border:1px solid var(--line);color:#fff;padding:12px 22px;border-radius:24px;z-index:40;transition:.25s;font-size:13px}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.modal{position:fixed;inset:0;background:rgba(5,3,18,.72);display:none;place-items:center;z-index:30;padding:18px}
+.modal.open{display:grid}
+.modal-card{width:min(460px,100%);background:#171233;border:1px solid var(--line);border-radius:22px;padding:26px;box-shadow:var(--shadow)}
+.modal-card h3{margin:0 0 6px;font-size:19px}.modal-card>p{color:var(--muted);font-size:13px;margin:0 0 8px}
+.modal-card label{display:block;font-size:13px;color:var(--muted);margin:14px 0 6px}
+.modal-card input,.modal-card textarea{width:100%;background:rgba(0,0,0,.3);border:1px solid var(--line);border-radius:12px;color:var(--ink);padding:11px 13px;font:inherit;font-size:13px}
+.modal-card textarea{min-height:76px;resize:vertical}
+.close{float:right;width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.1)}
+.apply{margin-top:20px;width:100%;padding:12px;border-radius:24px;background:var(--btn);color:#fff;font-size:14px}
+.lightbox-card{width:min(640px,100%);background:#171233;border:1px solid var(--line);border-radius:22px;padding:16px}
+.lightbox-card svg{width:100%;height:auto;display:block;border-radius:14px}
+.lightbox-card b{display:block;font-size:17px;margin:14px 4px 6px}
+.lightbox-card p{color:var(--muted);font-size:13px;line-height:1.8;margin:0 4px 8px}
+@media(max-width:900px){.hero{grid-template-columns:1fr}.gallery,.tab-grid,.notes{grid-template-columns:1fr 1fr}.wall{grid-template-columns:1fr}.nav{display:none}}
+@media(max-width:560px){.gallery,.tab-grid,.notes{grid-template-columns:1fr}.hero{padding:36px 0 26px}.stat{min-width:92px;padding:12px 14px}}
+</style>
+</head>
+<body data-theme="violet">
+<canvas id="stars"></canvas>
+<header class="topbar"><div class="topbar-in">
+<a class="brand" href="#top" id="brandName">DreamLand</a>
+<nav class="nav"><a href="#gallery">幻境画廊</a><a href="#structure">模板结构</a><a href="#notes">灵感便签</a></nav>
+<div class="tools">
+<button class="theme-btn active" data-set-theme="violet">星夜紫</button>
+<button class="theme-btn" data-set-theme="aurora">极光蓝</button>
+<button class="theme-btn" data-set-theme="dusk">暮光金</button>
+<button class="icon-btn" id="starToggle" title="星尘粒子开关" aria-label="星尘粒子开关">✦</button>
+<button class="custom-btn" id="customBtn">自定义文案</button>
+</div></div></header>
+<div class="wrap" id="top">
+<section class="hero">
+<div>
+<span class="tag">DreamLand · 个人展示模板框架</span>
+<h1 id="heroTitle">把脑海里的奇幻星海，装进一座云端花园</h1>
+<p id="heroSub">这是一套专为个人主页、插画作品集与世界观设定打造的 DreamLand 视觉框架。你可以随时切换配色氛围、替换文案，或直接在此基础上扩展你的专属板块。</p>
+<div class="hero-btns"><a class="btn-primary" href="#gallery">浏览幻境画廊</a><a class="btn-ghost" href="#structure">查看模板结构</a></div>
+<div class="stats">
+<div class="stat"><b>3 套</b><small>实时配色</small></div>
+<div class="stat"><b id="favCount">0</b><small>收藏印记</small></div>
+<div class="stat"><b id="noteCount">3 条</b><small>灵感便签</small></div>
+</div></div>
+<div class="hero-card">
+<svg viewBox="0 0 400 260" role="img" aria-label="星夜浮岛城堡"><defs><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2b1b5e"/><stop offset="1" stop-color="#7b5cf0"/></linearGradient></defs><rect width="400" height="260" fill="url(#sky)"/><circle cx="330" cy="45" r="16" fill="#f5eeda"/><g fill="#fff"><circle cx="50" cy="40" r="2"/><circle cx="110" cy="70" r="1.6"/><circle cx="200" cy="35" r="2"/><circle cx="280" cy="90" r="1.5"/><circle cx="370" cy="120" r="1.8"/></g><ellipse cx="200" cy="215" rx="150" ry="26" fill="#cbb8ff" opacity=".55"/><path d="M120 200 L200 120 L280 200 L250 235 L150 235 Z" fill="#4a3796"/><rect x="178" y="82" width="44" height="70" rx="6" fill="#6d54c9"/><path d="M172 84 L200 52 L228 84 Z" fill="#e8dcff"/><rect x="138" y="112" width="26" height="48" rx="5" fill="#5d46b4"/><path d="M134 114 L151 90 L168 114 Z" fill="#d9c8ff"/><rect x="238" y="112" width="26" height="48" rx="5" fill="#5d46b4"/><path d="M234 114 L251 90 L268 114 Z" fill="#d9c8ff"/><g fill="#ffe9a8"><rect x="194" y="100" width="12" height="16" rx="6"/><rect x="146" y="126" width="9" height="13" rx="4"/><rect x="247" y="126" width="9" height="13" rx="4"/></g><path d="M196 235 q4 18 0 25 M210 235 q4 18 0 25" stroke="#bfe3ff" stroke-width="5" fill="none" stroke-linecap="round"/></svg>
+<div class="hero-cap"><div><small>主视觉 · 01</small><b>星夜浮岛城堡</b><span>薰衣草星野之上的悬浮水晶圣殿</span></div><button class="icon-btn" data-open-lightbox="0" aria-label="放大欣赏">⤢</button></div>
+</div>
+</section>
+<section id="gallery">
+<div class="kicker">Gallery Showcase</div><h2>幻境主题插画画廊</h2>
+<p class="desc">支持分类筛选、点赞收藏与高清灯箱预览，方便替换成你自己的摄影或绘画作品。</p>
+<div class="filters"><button class="filter active" data-filter="all">全部</button><button class="filter" data-filter="building">浮空建筑</button><button class="filter" data-filter="creature">秘境生灵</button></div>
+<div class="gallery" id="galleryGrid"></div>
+</section>
+<section id="structure">
+<div class="kicker">Modular Framework</div><h2>多用途板块结构预览</h2>
+<p class="desc">还没想好具体放什么内容？点击下方标签，预览同一套 UI 可以演变成的三种网站形态。</p>
+<div class="tabs" id="tabs"></div>
+<div class="tab-grid" id="tabGrid"></div>
+</section>
+<section id="notes">
+<div class="kicker">Interactive Wall</div><h2>灵感便签墙</h2>
+<p class="desc">留下一句想放进网站的话，或测试表单交互效果。</p>
+<div class="wall">
+<form class="note-form" id="noteForm">
+<label for="noteAuthor">署名 / 标签</label><input id="noteAuthor" placeholder="例如：造梦者 / 灵感碎片" maxlength="24">
+<label for="noteText">便签内容</label><textarea id="noteText" placeholder="写下你希望这个网站未来承载的内容或心情……" maxlength="120"></textarea>
+<button class="apply" type="submit">贴到灵感墙上</button>
+</form>
+<div class="notes" id="notesGrid"></div>
+</div>
+</section>
+<footer><span>DreamLand UI Framework · 专为奇幻美学与个人展示设计</span><a href="#top">回到顶部 ↑</a></footer>
+</div>
+<div class="toast" id="toast"></div>
+<div class="modal" id="customModal"><div class="modal-card"><button class="close" data-close aria-label="关闭">×</button><h3>自定义你的 DreamLand</h3><p>实时替换文案，预览专属你的个人站点。</p><label for="fSite">站点名称</label><input id="fSite" value="DreamLand"><label for="fTitle">首页主标题</label><input id="fTitle" value="把脑海里的奇幻星海，装进一座云端花园"><label for="fSub">首页副标题</label><textarea id="fSub">这是一套专为个人主页、插画作品集与世界观设定打造的 DreamLand 视觉框架。你可以随时切换配色氛围、替换文案，或直接在此基础上扩展你的专属板块。</textarea><button class="apply" id="applyCustom">应用更改</button></div></div>
+<div class="modal" id="lightbox"><div class="lightbox-card"><button class="close" data-close aria-label="关闭">×</button><div id="lightboxArt"></div><b id="lightboxTitle"></b><p id="lightboxDesc"></p></div></div>
+<script>
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+let toastTimer;function toast(msg){const t=$("#toast");t.textContent=msg;t.classList.add("show");clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove("show"),2200)}
+const themeNames={violet:"星夜紫",aurora:"极光蓝",dusk:"暮光金"};
+$$("[data-set-theme]").forEach(b=>b.addEventListener("click",()=>{document.body.dataset.theme=b.dataset.setTheme;$$("[data-set-theme]").forEach(x=>x.classList.toggle("active",x===b));toast("已切换至「"+themeNames[b.dataset.setTheme]+"」氛围")}));
+const cv=$("#stars"),ctx=cv.getContext("2d");let stars=[],starsOn=true;
+function sizeStars(){cv.width=innerWidth;cv.height=innerHeight;stars=Array.from({length:110},()=>({x:Math.random()*cv.width,y:Math.random()*cv.height,r:Math.random()*1.6+.4,s:Math.random()*.25+.05}))}
+sizeStars();addEventListener("resize",sizeStars);
+(function draw(){ctx.clearRect(0,0,cv.width,cv.height);if(starsOn){ctx.fillStyle="rgba(255,255,255,.85)";stars.forEach(s=>{ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,7);ctx.fill();s.y+=s.s;if(s.y>cv.height){s.y=0;s.x=Math.random()*cv.width}})}requestAnimationFrame(draw)})();
+$("#starToggle").addEventListener("click",e=>{starsOn=!starsOn;e.currentTarget.classList.toggle("off",!starsOn);toast(starsOn?"星尘粒子已开启":"星尘粒子已关闭")});
+const arts=[
+{title:"星夜浮岛城堡",cat:"building",desc:"悬浮在薰衣草星野之上的水晶圣殿，瀑布从云端悬崖倾泻而下，窗棂间亮着永不熄灭的星光。",svg:'<svg viewBox="0 0 400 240"><rect width="400" height="240" fill="#2b1b5e"/><circle cx="330" cy="42" r="15" fill="#f5eeda"/><ellipse cx="200" cy="200" rx="145" ry="24" fill="#cbb8ff" opacity=".5"/><path d="M125 188 L200 112 L275 188 L248 220 L152 220 Z" fill="#4a3796"/><rect x="180" y="76" width="40" height="66" rx="6" fill="#6d54c9"/><path d="M174 78 L200 48 L226 78 Z" fill="#e8dcff"/><g fill="#ffe9a8"><rect x="194" y="94" width="12" height="15" rx="6"/><rect x="150" y="120" width="9" height="12" rx="4"/><rect x="243" y="120" width="9" height="12" rx="4"/></g></svg>'},
+{title:"月光晶蝶玫瑰",cat:"creature",desc:"半透明的琉璃蝶翼折射着新月微光，停驻在夜色里悄然绽放的紫色微光玫瑰花瓣上。",svg:'<svg viewBox="0 0 400 240"><rect width="400" height="240" fill="#1d1445"/><path d="M320 30 a26 26 0 1 0 18 44 a20 20 0 1 1 -18 -44" fill="#f5eeda"/><circle cx="200" cy="165" r="34" fill="#a855f7"/><circle cx="200" cy="165" r="20" fill="#d98cff"/><path d="M200 198 q-4 24 -14 34 M200 198 q6 22 16 32" stroke="#7ee2a8" stroke-width="5" fill="none"/><ellipse cx="158" cy="105" rx="42" ry="24" fill="#bfe3ff" opacity=".75" transform="rotate(-24 158 105)"/><ellipse cx="246" cy="105" rx="42" ry="24" fill="#e9d5ff" opacity=".75" transform="rotate(24 246 105)"/><ellipse cx="200" cy="122" rx="7" ry="22" fill="#f4f0ff"/></svg>'},
+{title:"黄昏云端图书馆",cat:"building",desc:"建在云海之巅的螺旋藏书塔，夕阳与星月同框的时刻，每一扇拱窗都透出暖黄色的灯火。",svg:'<svg viewBox="0 0 400 240"><rect width="400" height="240" fill="#3b1d4e"/><circle cx="80" cy="70" r="24" fill="#ffb35c"/><ellipse cx="200" cy="212" rx="165" ry="24" fill="#ffd9a8" opacity=".45"/><path d="M172 205 L186 70 Q200 52 214 70 L228 205 Z" fill="#6b4a8f"/><path d="M180 70 Q200 44 220 70" stroke="#ffd9a8" stroke-width="6" fill="none"/><g fill="#ffe9a8"><rect x="193" y="88" width="14" height="18" rx="7"/><rect x="190" y="120" width="20" height="18" rx="9"/><rect x="188" y="154" width="24" height="18" rx="9"/></g><path d="M160 205 Q200 188 240 205" stroke="#cbb8ff" stroke-width="6" fill="none"/></svg>'}
+];
+const liked=new Set();
+function renderGallery(f="all"){$("#galleryGrid").innerHTML=arts.map((a,i)=>f==="all"||a.cat===f?'<article class="art">'+a.svg+'<div class="art-body"><b>'+a.title+'</b><p>'+a.desc+'</p><div class="art-actions"><button class="small-btn'+(liked.has(i)?" liked":"")+'" data-like="'+i+'">♥ 收藏</button><button class="small-btn" data-open-lightbox="'+i+'">查看大图</button></div></div></article>':"").join("");bindArt()}
+function bindArt(){$$("[data-like]").forEach(b=>b.addEventListener("click",()=>{const i=+b.dataset.like;liked.has(i)?liked.delete(i):liked.add(i);$("#favCount").textContent=liked.size;renderGallery($(".filter.active").dataset.filter);toast(liked.has(i)?"已收藏「"+arts[i].title+"」":"已取消收藏")}));$$("[data-open-lightbox]").forEach(b=>b.addEventListener("click",()=>openLightbox(+b.dataset.openLightbox)))}
+$$(".filter").forEach(b=>b.addEventListener("click",()=>{$$(".filter").forEach(x=>x.classList.toggle("active",x===b));renderGallery(b.dataset.filter)}));
+renderGallery();
+function openLightbox(i){$("#lightboxArt").innerHTML=arts[i].svg;$("#lightboxTitle").textContent=arts[i].title;$("#lightboxDesc").textContent=arts[i].desc;$("#lightbox").classList.add("open")}
+const tabData={
+"作品展示页":[["插画分类画廊","支持按建筑、生灵、风景等分类筛选作品，并可查看高清大图与点赞收藏。"],["作品详情卡片","每张图附带独立的标题与氛围短句，适合展示创作灵感与画面设定。"],["收藏夹与足迹","用户点亮的爱心会实时计入上方“收藏印记”，方便统计受欢迎的作品。"]],
+"个人主页":[["个人品牌主视觉","用一张最具代表性的梦幻插画作为背景，第一时间传达你的个人风格。"],["关于我与随笔","可将下方板块改造成个人介绍、日常随笔、博客或链接导航区域。"],["访客留言墙","灵感便签模块可直接变成访客留言板，让朋友留下互动足迹。"]],
+"世界观设定集":[["世界观章节索引","把每张插画变成一个独立章节或地点词条，记录设定背景与角色故事。"],["浮空群岛档案","适合存放小说设定、OC 角色卡或游戏地图导览，图文并茂呈现完整设定集。"],["读者收藏印记","为每个章节提供点赞/收藏标记，直观统计最受喜爱的设定条目。"]]};
+$("#tabs").innerHTML=Object.keys(tabData).map((k,i)=>'<button class="tab'+(i===0?" active":"")+'" data-tab="'+k+'">'+k+"</button>").join("");
+function renderTab(k){$("#tabGrid").innerHTML=tabData[k].map(x=>'<div class="tab-card"><b>'+x[0]+"</b><p>"+x[1]+"</p></div>").join("")}
+$$(".tab").forEach(b=>b.addEventListener("click",()=>{$$(".tab").forEach(x=>x.classList.toggle("active",x===b));renderTab(b.dataset.tab)}));renderTab("作品展示页");
+let notes=[
+{text:"想把这个模板做成我的个人插画与随笔小站，晚上打开看着就很治愈。",author:"@云端旅人",time:"刚刚"},
+{text:"如果把每张图点开后加上背景音乐播放器，沉浸感应该会更强！",author:"@星海档案",time:"5 分钟前"},
+{text:"试试右上角的主题切换和「自定义文案」，看看哪种配色最合你心意。",author:"@DreamLand",time:"10 分钟前"}];
+function renderNotes(){$("#notesGrid").innerHTML="";notes.forEach((n,i)=>{const d=document.createElement("div");d.className="note";const del=document.createElement("button");del.className="del";del.textContent="×";del.setAttribute("aria-label","删除便签");del.onclick=()=>{notes.splice(i,1);renderNotes();toast("便签已删除")};const p=document.createElement("p");p.textContent=n.text;const s=document.createElement("small");s.textContent=n.author+" · "+n.time;d.append(del,p,s);$("#notesGrid").appendChild(d)});$("#noteCount").textContent=notes.length+" 条"}
+renderNotes();
+$("#noteForm").addEventListener("submit",e=>{e.preventDefault();const text=$("#noteText").value.trim();if(!text){toast("先写一句便签内容吧");return}const author=$("#noteAuthor").value.trim()||"造梦者";notes.unshift({text,author:"@"+author.replace(/^@/,""),time:"刚刚"});$("#noteText").value="";renderNotes();toast("便签已贴到灵感墙上")});
+$("#customBtn").addEventListener("click",()=>$("#customModal").classList.add("open"));
+$$("[data-close]").forEach(b=>b.addEventListener("click",()=>b.closest(".modal").classList.remove("open")));
+$$(".modal").forEach(m=>m.addEventListener("click",e=>{if(e.target===m)m.classList.remove("open")}));
+$("#applyCustom").addEventListener("click",()=>{const site=$("#fSite").value.trim()||"DreamLand";$("#brandName").textContent=site;$("#heroTitle").textContent=$("#fTitle").value.trim();$("#heroSub").textContent=$("#fSub").value.trim();document.title=site+" — "+$("#fTitle").value.trim();$("#customModal").classList.remove("open");toast("文案已更新")});
+</script>
+</body>
+</html>
